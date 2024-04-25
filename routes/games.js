@@ -31,7 +31,6 @@ router.get("/games", async (req, res) => {
       page_size,
     } = req.query;
 
-    console.log("avant la requête");
     const response = await axios.get(
       `https://api.rawg.io/api/games?key=${process.env.API_KEY}`,
       {
@@ -64,7 +63,6 @@ router.get("/games", async (req, res) => {
     );
 
     const games = response.data;
-    console.log("on a le games");
     res.status(200).json(games);
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -148,6 +146,213 @@ router.get("/game/:id/reddit", async (req, res) => {
     const response = await axios.get(
       `https://api.rawg.io/api/games/${id}/reddit?key=${process.env.API_KEY}`
     );
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/additions", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/additions?key=${process.env.API_KEY}`,
+      {
+        params: {
+          page,
+          page_size,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/development-team", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { ordering, page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/development-team?key=${process.env.API_KEY}`,
+      {
+        params: {
+          ordering,
+          page,
+          page_size,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/game-series", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/game-series?key=${process.env.API_KEY}`,
+      {
+        params: {
+          page,
+          page_size,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/parent-games", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/parent-games?key=${process.env.API_KEY}`,
+      {
+        params: {
+          page,
+          page_size,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/screenshots", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { ordering, page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/screenshots?key=${process.env.API_KEY}`,
+      {
+        params: {
+          ordering,
+          page,
+          page_size,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.status(error.response ? error.response.status : 500).json({
+        message: "erreur lors de l'appel API",
+        error: error.response ? error.response.data : "Aucun réponse",
+      });
+    } else if (error instanceof Error) {
+      res
+        .status(500)
+        .json({ message: "Erreur interne du serveur", error: error.message });
+    } else {
+      res.status(500).json({
+        message: "Erreur interne du serveur",
+        error: "Une erreur inconnue est survenue",
+      });
+    }
+  }
+});
+
+router.get("/games/:id/stores", async (req, res) => {
+  try {
+    const game_pk = req.params.id;
+    const { ordering, page, page_size } = req.query;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${game_pk}/stores?key=${process.env.API_KEY}`,
+      {
+        params: {
+          ordering,
+          page,
+          page_size,
+        },
+      }
+    );
+
     res.status(200).json(response.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {

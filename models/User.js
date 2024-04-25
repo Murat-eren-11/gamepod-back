@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const User = mongoose.model("User", {
+const Gameuser = mongoose.model("Gameuser", {
   email: {
     unique: true,
     type: String,
@@ -9,9 +9,10 @@ const User = mongoose.model("User", {
     required: true,
     type: String,
   },
+  avatar: Object,
   token: String,
   hash: String,
   salt: String,
 });
 
-module.exports = User;
+module.exports = Gameuser;

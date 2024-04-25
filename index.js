@@ -32,6 +32,12 @@ app.use(tagsRoute);
 const userRoute = require("./routes/user");
 app.use(userRoute);
 
+const favRoute = require("./routes/favorites");
+app.use(favRoute);
+
+const commentRoute = require("./routes/comments");
+app.use(commentRoute);
+
 app.all("*", (req, res) => {
   res.status(404).json({
     message: "Y'a pas de jeux ici !",
