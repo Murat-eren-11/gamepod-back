@@ -35,7 +35,7 @@ router.post("/signup", async (req, res) => {
       return res.status(409).json({message: "Email already exists"});
     }
 
-    const picture = req?.files.picture;
+    const picture = req.files?.picture;
     const avatarResult = await cloudinary.uploader.upload(
       picture.tempFilePath,
       {
@@ -67,7 +67,6 @@ router.post("/signup", async (req, res) => {
     res.status(201).json({
       message: "Compte créé avec succès",
       username: newUser.username,
-      avatar: newUser.avatar,
       token: newUser.token,
     });
   } catch (error) {
