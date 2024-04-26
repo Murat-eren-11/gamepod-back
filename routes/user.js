@@ -105,14 +105,12 @@ router.get("/gameuser", isAuthenticated, async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Trouver l'utilisateur par son ID (stocké dans req.user par le middleware)
     const user = await Gameuser.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Retourner les informations de l'utilisateur (filtrez les informations sensibles)
     res.status(200).json({
       email: user.email,
       username: user.username,
