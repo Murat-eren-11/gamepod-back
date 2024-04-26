@@ -36,12 +36,13 @@ router.post("/signup", async (req, res) => {
     }
 
     const picture = req.files?.picture;
-    const avatarResult = await cloudinary.uploader.upload(
-      picture.tempFilePath,
-      {
+    let avatarResult;
+
+    if (req.files) {
+      avatarResult = await cloudinary.uploader.upload(picture.tempFilePath, {
         folder: "gamepad/avatar",
-      }
-    );
+      });
+    }
 
     const salt = uid2(16);
     const hash = SHA256(password + salt).toString(encBase64);
