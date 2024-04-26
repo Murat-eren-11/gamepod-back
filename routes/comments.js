@@ -15,19 +15,19 @@ router.post("/comments/:id", isAuthenticated, async (req, res) => {
     await newComment.save();
     res.status(201).json(newComment);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({message: error.message});
   }
 });
 
-router.get("/comments/:id", isAuthenticated, async (req, res) => {
+router.get("/comments/:id", async (req, res) => {
   try {
-    const comments = await Comment.find({ id: req.params.id }).populate(
+    const comments = await Comment.find({id: req.params.id}).populate(
       "user",
       "username"
     );
     res.json(comments);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({message: error.message});
   }
 });
 
