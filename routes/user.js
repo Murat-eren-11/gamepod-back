@@ -23,16 +23,16 @@ router.use(
 
 router.post("/signup", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password || !req.files?.picture) {
+    const {username, email, password} = req.body;
+    if (!username || !email || !password) {
       return res
         .status(400)
-        .json({ message: "All fields including a picture are required" });
+        .json({message: "All fields including a picture are required"});
     }
 
-    const userExists = await Gameuser.findOne({ email });
+    const userExists = await Gameuser.findOne({email});
     if (userExists) {
-      return res.status(409).json({ message: "Email already exists" });
+      return res.status(409).json({message: "Email already exists"});
     }
 
     const picture = req.files.picture;
@@ -71,23 +71,23 @@ router.post("/signup", async (req, res) => {
       token: newUser.token,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
-    const userFound = await Gameuser.findOne({ email: req.body.email });
+    const userFound = await Gameuser.findOne({email: req.body.email});
 
     if (!userFound) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({message: "User not found"});
     }
 
     const hash = SHA256(req.body.password + userFound.salt).toString(encBase64);
     if (hash !== userFound.hash) {
       return res
         .status(401)
-        .json({ message: "Password incorrect or Mail incorrect" });
+        .json({message: "Password incorrect or Mail incorrect"});
     }
     res.status(200).json({
       message: "Connecté",
@@ -95,20 +95,20 @@ router.post("/login", async (req, res) => {
       token: userFound.token,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
 router.get("/gameuser", isAuthenticated, async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({message: "Unauthorized"});
     }
 
     const user = await Gameuser.findById(req.user._id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({message: "User not found"});
     }
 
     res.status(200).json({
@@ -117,7 +117,7 @@ router.get("/gameuser", isAuthenticated, async (req, res) => {
       avatar: user.avatar,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
@@ -126,7 +126,7 @@ router.put("/update", isAuthenticated, async (req, res) => {
     const user = await Gameuser.findById(req.user._id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({message: "User not found"});
     }
 
     if (req.body.username) {
@@ -134,9 +134,9 @@ router.put("/update", isAuthenticated, async (req, res) => {
     }
 
     if (req.body.email) {
-      const emailExists = await Gameuser.findOne({ email: req.body.email });
+      const emailExists = await Gameuser.findOne({email: req.body.email});
       if (emailExists && emailExists._id.toString() !== user._id.toString()) {
-        return res.status(400).json({ message: "Email already in use" });
+        return res.status(400).json({message: "Email already in use"});
       }
       user.email = req.body.email;
     }
@@ -157,7 +157,7 @@ router.put("/update", isAuthenticated, async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({error: error.message});
   }
 });
 
